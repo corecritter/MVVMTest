@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="MVVMTest.View.CustomerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vw="clr-namespace:MVVMTest.View"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Width="400">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="6" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label 
+          Grid.Row="0" Grid.Column="0" 
+          Content="First _name:" 
+          HorizontalAlignment="Right"
+          Target="{Binding ElementName=firstNameTxt}"
+          />
+        <TextBox 
+            x:Name="firstNameTxt"
+            Grid.Row="0" Grid.Column="2"
+            Text="{Binding Path=FirstName, ValidatesOnDataErrors=False, UpdateSourceTrigger=PropertyChanged}" 
+            Validation.ErrorTemplate="{x:Null}"
+        />
+        <ContentPresenter 
+            Grid.Row="3" Grid.Column="2"
+            Content="{Binding ElementName=firstNameTxt, Path=(Validation.Errors).CurrentItem}"
+            />
+
+    </Grid>
+</UserControl>

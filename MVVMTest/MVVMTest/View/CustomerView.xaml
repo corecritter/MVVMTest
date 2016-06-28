@@ -23,23 +23,77 @@
             <RowDefinition Height="30" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
+        <!-- First Name -->
+        <!--Display Label--> 
         <Label 
-          Grid.Row="0" Grid.Column="0" 
+          Grid.Row="2" Grid.Column="0" 
           Content="First _name:" 
           HorizontalAlignment="Right"
           Target="{Binding ElementName=firstNameTxt}"
           />
+        <!-- Actual Editing Field -->
         <TextBox 
             x:Name="firstNameTxt"
-            Grid.Row="0" Grid.Column="2"
+            Grid.Row="2" Grid.Column="2"
             Text="{Binding Path=FirstName, ValidatesOnDataErrors=False, UpdateSourceTrigger=PropertyChanged}" 
             Validation.ErrorTemplate="{x:Null}"
         />
+        <!-- Validation Message -->
         <ContentPresenter 
             Grid.Row="3" Grid.Column="2"
             Content="{Binding ElementName=firstNameTxt, Path=(Validation.Errors).CurrentItem}"
             />
+        
+        <!-- Last Name -->
+        <!--Display Label-->
+        <Label 
+          Grid.Row="4" Grid.Column="0" 
+          Content="Last _name:" 
+          HorizontalAlignment="Right"
+          Target="{Binding ElementName=lastNameTxt}"
+          />
+        <!-- Actual Editing Field -->
+        <TextBox 
+            x:Name="lastNameTxt"
+            Grid.Row="4" Grid.Column="2"
+            Text="{Binding Path=LastName, ValidatesOnDataErrors=False, UpdateSourceTrigger=PropertyChanged}" 
+            Validation.ErrorTemplate="{x:Null}"
+        />
+        <!-- Validation Message -->
+        <ContentPresenter 
+            Grid.Row="5" Grid.Column="2"
+            Content="{Binding ElementName=lastNameTxt, Path=(Validation.Errors).CurrentItem}"
+            />
 
+        <!-- E-Mail Address -->
+        <!--Display Label-->
+        <Label 
+          Grid.Row="6" Grid.Column="0" 
+          Content="E-mail:" 
+          HorizontalAlignment="Right"
+          Target="{Binding ElementName=emailTxt}"
+          />
+        <!-- Actual Editing Field -->
+        <TextBox 
+            x:Name="emailTxt"
+            Grid.Row="6" Grid.Column="2"
+            Text="{Binding Path=Email, ValidatesOnDataErrors=False, UpdateSourceTrigger=PropertyChanged}" 
+            Validation.ErrorTemplate="{x:Null}"
+        />
+        <!-- Validation Message -->
+        <ContentPresenter 
+            Grid.Row="7" Grid.Column="2"
+            Content="{Binding ElementName=emailTxt, Path=(Validation.Errors).CurrentItem}"
+            />
+        
+        <!-- Save Button -->
+        <Button
+            Grid.Row="9" Grid.Column="2"
+            Command="{Binding Path=SaveCommand}"
+            Content="_Save"
+            HorizontalAlignment="Right"
+            Margin="4,2"
+            MinWidth="60"
+            />
     </Grid>
 </UserControl>

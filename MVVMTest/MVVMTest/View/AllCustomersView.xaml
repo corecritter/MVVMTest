@@ -64,8 +64,15 @@
         
     </UserControl.Resources>
     <DockPanel>
+        <!-- Total Selected Sales -->
         <Grid DockPanel.Dock="Bottom" Margin="0,2,4,2">
-
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="Total Selected Sales: " />
+                <ContentPresenter
+                    Content="{Binding Path=TotalSelectedSales}"
+                    ContentStringFormat="c"
+                    />
+            </StackPanel>
         </Grid>
         <ListView 
             AlternationCount="2"
@@ -90,14 +97,10 @@
                                     HorizontalAlignment="Right"
                                     />
                             </DataTemplate>
-                        
                         </GridViewColumn.CellTemplate>
-                    </GridViewColumn> 
-
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
-
-
         </ListView>
     </DockPanel>
 </UserControl>

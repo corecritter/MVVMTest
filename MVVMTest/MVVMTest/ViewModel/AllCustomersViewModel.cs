@@ -36,6 +36,14 @@ namespace MVVMTest.ViewModel
             this.AllCustomers.CollectionChanged += this.OnCollectionChanged;
         }
 
+        public double TotalSelectedSales
+        {
+            get
+            {
+                return this.AllCustomers.Sum(custVM => custVM.IsSelected ? custVM.TotalSales : 0.0);
+            }
+        }
+
         void OnCustomerAddedToRepository(object sender, CustomerAddedEventArgs e)
         {
             var viewModel = new CustomerViewModel(e.NewCustomer, _customerRepository);
@@ -44,7 +52,7 @@ namespace MVVMTest.ViewModel
 
         void OnCustomerViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-
+            this.OnPropertyChanged("TotalSelectedSales");
         }
         void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {

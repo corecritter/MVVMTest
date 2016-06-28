@@ -191,6 +191,20 @@ namespace MVVMTest.ViewModel
         {
             get { return _customer.IsCompany; }
         }
+
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if (value == _isSelected)
+                    return;
+
+                _isSelected = value;
+
+                base.OnPropertyChanged("IsSelected");
+            }
+        }
         #endregion // Customer Properties
 
         #region IDataErrorInfo

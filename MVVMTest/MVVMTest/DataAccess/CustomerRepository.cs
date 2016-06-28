@@ -50,11 +50,12 @@ namespace MVVMTest.DataAccess
                 return
                     (from customerElem in XDocument.Load(xmlRdr).Element("customers").Elements("customer")
                      select Customer.CreateCustomer(
-                        //(double)customerElem.Attribute("totalSales"),
+                        
                         (string)customerElem.Attribute("firstName"),
-                        (string)customerElem.Attribute("lastName")//,
-                       // (bool)customerElem.Attribute("isCompany"),
-                       // (string)customerElem.Attribute("email")
+                        (string)customerElem.Attribute("lastName"),
+                        (string)customerElem.Attribute("email"),
+                        (double)customerElem.Attribute("totalSales"),
+                        (bool)customerElem.Attribute("isCompany")
                          )).ToList();
         }
         static Stream GetResourceStream(string resourceFile)

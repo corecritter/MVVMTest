@@ -64,23 +64,41 @@ namespace MVVMTest.ViewModel
                 if (this.isNewCustomer)
                     return "New Customer";
                 else
-                    return String.Format("{0}", _customer.FirstName);
+                    return String.Format("{0}, {1}",_customer.LastName, _customer.FirstName);
             }
         }
 
-        //public string LastName
-        //{
-        //    get { return _customer.LastName; }
-        //    set
-        //    {
-        //        if (value == _customer.LastName)
-        //            return;
+        public string LastName
+        {
+            get { return _customer.LastName; }
+            set
+            {
+                if (value == _customer.LastName)
+                    return;
 
-        //        _customer.LastName = value;
+                _customer.LastName = value;
 
-        //        base.OnPropertyChanged("LastName");
-        //    }
-        //}
+                base.OnPropertyChanged("LastName");
+            }
+        }
+        public string Email
+        {
+            get { return _customer.Email; }
+            set
+            {
+                if (value == _customer.Email)
+                    return;
+
+                _customer.Email = value;
+
+                base.OnPropertyChanged("Email");
+            }
+        }
+
+        public double TotalSales
+        {
+            get { return _customer.TotalSales; }
+        }
 
         #endregion // Customer Properties
 

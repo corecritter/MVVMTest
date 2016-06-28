@@ -47,7 +47,8 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=DisplayName}"/>
-                    <GridViewColumn Header="E-Mail" DisplayMemberBinding="{Binding Path=Email}"/> 
+                    <GridViewColumn Header="E-Mail" DisplayMemberBinding="{Binding Path=Email}"/>
+                    <GridViewColumn Header="Total Sales" DisplayMemberBinding="{Binding Path=TotalSales}"/>
 
                 </GridView>
             </ListView.View>

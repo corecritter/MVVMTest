@@ -13,12 +13,15 @@ namespace MVVMTest.Model
         {
             return new Customer();
         }
-        public static Customer CreateCustomer(string fName, string lName)
+        public static Customer CreateCustomer(string fName, string lName, string email, double totalSales, bool isCompany)
         {
             return new Customer()
             {
                 FirstName = fName,
-                LastName = lName
+                LastName = lName,
+                Email = email,
+                TotalSales = totalSales,
+                IsCompany = isCompany
             };
         }
         #endregion
@@ -36,6 +39,11 @@ namespace MVVMTest.Model
         /// </summary>
         public string LastName { get; set; }
 
+        public bool IsCompany { get; set; }
+
+        public string Email { get; set; }
+
+        public double TotalSales { get; set; }
         #endregion
 
         #region IDataErrorInfo

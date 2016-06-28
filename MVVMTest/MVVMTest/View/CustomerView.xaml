@@ -23,6 +23,21 @@
             <RowDefinition Height="30" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <!-- Customer Type-->
+        <Label Grid.Row="0" Grid.Column="0"
+               Content="Customer _Type"
+               HorizontalAlignment="Right"
+               Target="{Binding ElementName=customerTypeCmb}"
+               />
+        <ComboBox
+            x:Name="customerTypeCmb"
+            Grid.Row="0" Grid.Column="2"
+            ItemsSource="{Binding Path=CustomerTypeOptions, Mode=OneTime}"
+            SelectedItem="{Binding Path=CustomerType, ValidatesOnDataErrors=False}"
+            Validation.ErrorTemplate="{x:Null}"
+            />
+
+
         <!-- First Name -->
         <!--Display Label--> 
         <Label 

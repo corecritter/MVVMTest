@@ -15,8 +15,8 @@ namespace MVVMTest.ViewModel
 
         readonly Customer _customer;
         readonly CustomerRepository _customerRepository;
-        //string _customerType;
-        //string[] _customerTypeOptions;
+        string _customerType;
+        string[] _customerTypeOptions;
         bool _isSelected;
         RelayCommand _saveCommand;
 
@@ -34,9 +34,59 @@ namespace MVVMTest.ViewModel
 
             _customer = customer;
             _customerRepository = customerRepository;
+            _customerType = "Not Specified";
         }
 
         #endregion
+        
+        public string CustomerType
+        {
+            get { return _customerType; }
+            set
+            {
+                if (value == _customerType || String.IsNullOrEmpty(value))
+                    return;
+
+                _customerType = value;
+
+                if(_customerType.Equals("Person"))
+                {
+                    _customer.IsCompany = false;
+                }
+                else if(_customerType.Equals("Company"))
+                {
+                    _customer.IsCompany = true;
+                }
+
+                base.OnPropertyChanged("CustomerType");
+
+                // Since this ViewModel object has knowledge of how to translate
+                // a customer type (i.e. text) to a Customer object's IsCompany property,
+                // it also must raise a property change notification when it changes
+                // the value of IsCompany.  The LastName property is validated 
+                // differently based on whether the customer is a company or not,
+                // so the validation for the LastName property must execute now.
+                base.OnPropertyChanged("LastName");
+            }
+        }
+
+        public string[] CustomerTypeOptions
+        {
+            get
+            {
+                if (_customerTypeOptions == null)
+                {
+                    _customerTypeOptions = new string[]
+                    {
+                        "Not Specified",
+                        "Person",
+                        "Company"
+                    };
+                }
+
+                return _customerTypeOptions;
+            }
+        }
 
         #region Commands
         public ICommand SaveCommand
@@ -62,11 +112,18 @@ namespace MVVMTest.ViewModel
         }
         #endregion
 
+        #region Helpers
         //TODO: Implement Validation
         bool CanSave 
         {
             get { return true; }
         }
+        bool isNewCustomer
+        {
+            get { return !_customerRepository.ContainsCustomer(_customer); }
+        }
+
+        #endregion
 
         #region Customer Properties
 
@@ -83,10 +140,7 @@ namespace MVVMTest.ViewModel
                 base.OnPropertyChanged("FirstName");
             }
         }
-        bool isNewCustomer
-        {
-            get { return !_customerRepository.ContainsCustomer(_customer); }
-        }
+
         //From ViewModelBase
         public override string DisplayName
         {

@@ -187,6 +187,10 @@ namespace MVVMTest.ViewModel
             get { return _customer.TotalSales; }
         }
 
+        public bool IsCompany
+        {
+            get { return _customer.IsCompany; }
+        }
         #endregion // Customer Properties
 
         #region IDataErrorInfo

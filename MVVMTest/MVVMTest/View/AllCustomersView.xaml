@@ -3,9 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
     <UserControl.Resources>
+        
+        <!-- Group customers by the IsCompany Property -->
         <CollectionViewSource x:Key="CustomerGroups" Source="{Binding Path=AllCustomers}">
-            
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="IsCompany" />
+            </CollectionViewSource.GroupDescriptions>
+            <CollectionViewSource.SortDescriptions>
+                <!-- 
+                Sort descending by IsCompany so that the 'True' values appear first,
+                which means that companies will always be listed before people.
+                -->
+                <scm:SortDescription PropertyName="IsCompany" Direction="Descending" />
+                <scm:SortDescription PropertyName="DisplayName" Direction="Ascending" />
+            </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+        
+        <!-- Display The Customers in Groups by People Groups and Company Groups -->
         <GroupStyle x:Key="CustomerGroupStyle">
             <GroupStyle.HeaderTemplate>
                 <DataTemplate>
@@ -18,6 +32,12 @@
                         Padding="4,2,0,2"
                         Text="People"
                     />
+                    <!-- Set the Text Property to Companies to the TextBlock with name="txt" if IsCompany == True-->
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Path=Name}" Value="True">
+                            <Setter TargetName="txt" Property="Text" Value="Companies" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </GroupStyle.HeaderTemplate>
         </GroupStyle>

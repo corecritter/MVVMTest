@@ -41,6 +41,21 @@ namespace MVVMTest.DataAccess
             return _customers.Contains(customer);
         }
 
+        public void AddCustomer(Customer customer)
+        {
+            if (customer == null)
+                throw new ArgumentException("null customer");
+
+            if(!_customers.Contains(customer))
+            {
+                _customers.Add(customer);
+
+                if (this.CustomerAdded != null)
+                    this.CustomerAdded(this, new CustomerAddedEventArgs(customer));
+            }
+        }
+
+        #region Import Customer Data
         static List<Customer> LoadCustomers(string customerDataFile)
         {
             // In a real application, the data would come from an external source,
@@ -68,6 +83,7 @@ namespace MVVMTest.DataAccess
 
             return info.Stream;
         }
+        #endregion
 
     }
 }

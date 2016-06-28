@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
 
 namespace MVVMTest.ViewModel
 {
@@ -37,6 +38,36 @@ namespace MVVMTest.ViewModel
 
         #endregion
 
+        #region Commands
+        public ICommand SaveCommand
+        {
+            get
+            {
+                if(_saveCommand == null)
+                {
+                    _saveCommand = new RelayCommand(param => this.Save(), param => this.CanSave);
+                }
+                return _saveCommand;
+            }
+        }
+
+        public void Save()
+        {
+            //if(!isValid)
+
+            if (this.isNewCustomer)
+                _customerRepository.AddCustomer(_customer);
+
+            base.OnPropertyChanged("DisplayName");
+        }
+        #endregion
+
+        //TODO: Implement Validation
+        bool CanSave 
+        {
+            get { return true; }
+        }
+
         #region Customer Properties
 
         public string FirstName
@@ -63,8 +94,10 @@ namespace MVVMTest.ViewModel
             {
                 if (this.isNewCustomer)
                     return "New Customer";
+                else if (_customer.IsCompany)
+                    return _customer.FirstName;
                 else
-                    return String.Format("{0}, {1}",_customer.LastName, _customer.FirstName);
+                    return String.Format("{0}, {1}", _customer.LastName, _customer.FirstName);
             }
         }
 

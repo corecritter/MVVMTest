@@ -26,7 +26,7 @@
                     <TextBlock
                         x:Name="txt"
                         Background="{StaticResource Brush_HeaderBackground}"
-                        FontWeight="Black"
+                        FontWeight="Bold"
                         Foreground="White"
                         Margin="1"
                         Padding="4,2,0,2"
@@ -48,6 +48,18 @@
               right-align text in the Total Sales column. 
               -->
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <!-- Bind IsSelected Property of a ListViewItem to IsSelected of CustomerViewModel-->
+            <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="ItemsControl.AlternationIndex" Value="1" />
+                        <Condition Property="IsSelected" Value="False" />
+                        <Condition Property="IsMouseOver" Value="False" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="#EEEEEEEE" />
+                </MultiTrigger>
+            </Style.Triggers>
         </Style>
         
     </UserControl.Resources>
@@ -60,7 +72,7 @@
             DataContext="{StaticResource CustomerGroups}"
             ItemContainerStyle="{StaticResource CustomerItemStyle}"
             ItemsSource="{Binding}"
-        >
+            >
             <ListView.GroupStyle>
                 <StaticResourceExtension ResourceKey="CustomerGroupStyle"/>
             </ListView.GroupStyle>
@@ -68,7 +80,19 @@
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=DisplayName}"/>
                     <GridViewColumn Header="E-Mail" DisplayMemberBinding="{Binding Path=Email}"/>
-                    <GridViewColumn Header="Total Sales" DisplayMemberBinding="{Binding Path=TotalSales}"/>
+                    <!-- Create DataTemplate For TotalSales to formatting and alignment-->
+                    <GridViewColumn Header="Total Sales">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ContentPresenter
+                                    Content="{Binding Path=TotalSales}"
+                                    ContentStringFormat="c"
+                                    HorizontalAlignment="Right"
+                                    />
+                            </DataTemplate>
+                        
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn> 
 
                 </GridView>
             </ListView.View>

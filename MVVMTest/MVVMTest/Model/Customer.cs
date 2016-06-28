@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace MVVMTest.Model
 {
@@ -47,11 +48,11 @@ namespace MVVMTest.Model
         #endregion
 
         #region IDataErrorInfo
-        public string this[string columnName]
+        public string this[string propertyName]
         {
             get
             {
-                throw new NotImplementedException();
+                return this.GetValidationError(propertyName);
             }
         }
 
@@ -61,6 +62,92 @@ namespace MVVMTest.Model
             {
                 return "Customer.IDataErrorInfo";// throw new NotImplementedException();
             }
+        }
+        #endregion
+
+        #region Validation
+
+        static readonly string[] ValidatedProperties =
+        {
+            "FirstName",
+            "LastName",
+            "Email"
+        };
+
+        public bool IsValid
+        {
+            get
+            {
+                foreach (string property in ValidatedProperties)
+                    if (GetValidationError(property) != null)
+                        return false;
+                return true;
+            }
+        }
+
+        string GetValidationError(string propertyName)
+        {
+            if (Array.IndexOf(ValidatedProperties, propertyName) < 0)
+                return null;
+            string error = null;
+
+            switch(propertyName)
+            {
+                case "FirstName":
+                    error = this.ValidateFirstName();
+                    break;
+
+                case "LastName":
+                    error = this.ValidateLastName();
+                    break;
+
+                case "Email":
+                    error = this.ValidateEmail();
+                    break;
+
+                //default:
+            }
+
+            return error;
+        }
+
+        string ValidateFirstName()
+        {
+            if (IsStringMissing(this.FirstName))
+                return "Invalid First Name";
+            return null;
+        }
+
+        string ValidateLastName()
+        {
+            if (IsStringMissing(this.LastName))
+                return "Invalid Last Name";
+            return null;
+        }
+
+        string ValidateEmail()
+        {
+            if (IsStringMissing(this.Email))
+                return "Enter Email";
+            else if (!IsValidEmailAddress(this.Email))
+                return "Invalid Email";
+            return null;
+        }
+
+        static bool IsStringMissing(string value)
+        {
+            return String.IsNullOrEmpty(value) || value.Trim() == String.Empty;
+        }
+
+        static bool IsValidEmailAddress(string email)
+        {
+            if (IsStringMissing(email))
+                return false;
+
+            // This regex pattern came from: http://haacked.com/archive/2007/08/21/i-knew-how-to-validate-an-email-address-until-i.aspx
+            string pattern = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$";
+
+            return Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase);
         }
         #endregion
     }

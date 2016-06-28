@@ -103,17 +103,17 @@ namespace MVVMTest.ViewModel
 
         void ShowAllCustomers()
         {
-            //AllCustomersViewModel workspace =
-            //    this._workspaces.FirstOrDefault(vm => vm is AllCustomersViewModel)
-            //    as AllCustomersViewModel;
+            //Ensures only one AllCustomersView can be shown at a time
+            AllCustomersViewModel workspace =
+                this._workspaces.FirstOrDefault(vm => vm is AllCustomersViewModel)
+                as AllCustomersViewModel;
 
-            //if (workspace == null)
-            //{
-            //    workspace = new AllCustomersViewModel(_customerRepository);
-            //    this.Workspaces.Add(workspace);
-            //}
-            AllCustomersViewModel workspace = new AllCustomersViewModel(_customerRepository);
-            this.Workspaces.Add(workspace);
+            if (workspace == null)
+            {
+                workspace = new AllCustomersViewModel(_customerRepository);
+                this.Workspaces.Add(workspace);
+            }
+
             this.SetActiveWorkspace(workspace);
         }
 

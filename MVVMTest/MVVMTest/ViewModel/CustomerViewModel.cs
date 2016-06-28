@@ -103,7 +103,8 @@ namespace MVVMTest.ViewModel
 
         public void Save()
         {
-            //if(!isValid)
+            if (!_customer.IsValid)
+                return;
 
             if (this.isNewCustomer)
                 _customerRepository.AddCustomer(_customer);
@@ -113,16 +114,22 @@ namespace MVVMTest.ViewModel
         #endregion
 
         #region Helpers
-        //TODO: Implement Validation
         bool CanSave 
         {
-            get { return true; }
+            get { return String.IsNullOrEmpty(this.ValidateCustomerType()) && _customer.IsValid; }
         }
         bool isNewCustomer
         {
             get { return !_customerRepository.ContainsCustomer(_customer); }
         }
 
+        string ValidateCustomerType()
+        {
+            if (this.CustomerType.Equals("Company") || this.CustomerType.Equals("Person"))
+                return null;
+
+            return "Missing Customer Type";
+        }
         #endregion
 
         #region Customer Properties
@@ -209,11 +216,31 @@ namespace MVVMTest.ViewModel
 
         #region IDataErrorInfo
 
-        public string this[string columnName]
+        public string this[string propertyName]
         {
             get
             {
-                return "CutomerViewModel.this";//throw new NotImplementedException();
+                string error = null;
+                
+                if(propertyName == "CustomerType")
+                {
+                    // The IsCompany property of the Customer class 
+                    // is Boolean, so it has no concept of being in
+                    // an "unselected" state.  The CustomerViewModel
+                    // class handles this mapping and validation.
+                    error = this.ValidateCustomerType();
+                }
+                else
+                {
+                    error = (_customer as IDataErrorInfo)[propertyName];
+                }
+
+                // Dirty the commands registered with CommandManager,
+                // such as our Save command, so that they are queried
+                // to see if they can execute now.
+                CommandManager.InvalidateRequerySuggested();
+
+                return error;
             }
         }
 
@@ -221,7 +248,7 @@ namespace MVVMTest.ViewModel
         {
             get
             {
-                return "CutomerViewModel.Error"; //throw new NotImplementedException();
+                return (_customer as IDataErrorInfo).Error;
             }
         }
 

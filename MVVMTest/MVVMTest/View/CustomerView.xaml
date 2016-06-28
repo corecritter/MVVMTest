@@ -23,6 +23,19 @@
             <RowDefinition Height="30" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Grid.Resources>
+            <!-- For Validation Errors-->
+            <DataTemplate DataType="{x:Type ValidationError}">
+                <TextBlock
+                    FontStyle="Italic"
+                    Foreground="Red"
+                    HorizontalAlignment="Right"
+                    Margin="0,1"
+                    Text="{Binding Path=ErrorContent}"
+                    />
+            </DataTemplate>
+        </Grid.Resources>
+        
         <!-- Customer Type-->
         <Label Grid.Row="0" Grid.Column="0"
                Content="Customer _Type"
@@ -33,8 +46,12 @@
             x:Name="customerTypeCmb"
             Grid.Row="0" Grid.Column="2"
             ItemsSource="{Binding Path=CustomerTypeOptions, Mode=OneTime}"
-            SelectedItem="{Binding Path=CustomerType, ValidatesOnDataErrors=False}"
+            SelectedItem="{Binding Path=CustomerType, ValidatesOnDataErrors=True}"
             Validation.ErrorTemplate="{x:Null}"
+            />
+        <ContentPresenter
+            Grid.Row="1" Grid.Column="2"
+            Content="{Binding ElementName=customerTypeCmb, Path=(Validation.Errors).CurrentItem}"
             />
 
 
@@ -50,7 +67,7 @@
         <TextBox 
             x:Name="firstNameTxt"
             Grid.Row="2" Grid.Column="2"
-            Text="{Binding Path=FirstName, ValidatesOnDataErrors=False, UpdateSourceTrigger=PropertyChanged}" 
+            Text="{Binding Path=FirstName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
             Validation.ErrorTemplate="{x:Null}"
         />
         <!-- Validation Message -->
@@ -71,7 +88,7 @@
         <TextBox 
             x:Name="lastNameTxt"
             Grid.Row="4" Grid.Column="2"
-            Text="{Binding Path=LastName, ValidatesOnDataErrors=False, UpdateSourceTrigger=PropertyChanged}" 
+            Text="{Binding Path=LastName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
             Validation.ErrorTemplate="{x:Null}"
         />
         <!-- Validation Message -->
@@ -92,7 +109,7 @@
         <TextBox 
             x:Name="emailTxt"
             Grid.Row="6" Grid.Column="2"
-            Text="{Binding Path=Email, ValidatesOnDataErrors=False, UpdateSourceTrigger=PropertyChanged}" 
+            Text="{Binding Path=Email, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
             Validation.ErrorTemplate="{x:Null}"
         />
         <!-- Validation Message -->

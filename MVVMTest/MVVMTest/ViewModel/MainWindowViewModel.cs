@@ -40,10 +40,21 @@ namespace MVVMTest.ViewModel
         }
         void OnWorkSpacesChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            if (e.NewItems != null && e.NewItems.Count != 0)
+                foreach (WorkspaceViewModel workspace in e.NewItems)
+                    workspace.RequestClose += this.OnWorkSpaceRequestClose;
+            if (e.OldItems != null && e.OldItems.Count != 0)
+                foreach (WorkspaceViewModel workspace in e.OldItems)
+                    workspace.RequestClose -= this.OnWorkSpaceRequestClose;
 
         }
 
-
+        void OnWorkSpaceRequestClose(object sender, EventArgs e)
+        {
+            WorkspaceViewModel workspace = sender as WorkspaceViewModel;
+            workspace.Dispose();
+            this.Workspaces.Remove(workspace);
+        }
 
         void SetActiveWorkspace(WorkspaceViewModel workspace)
         {

@@ -9,32 +9,47 @@
         Width="300"
         Title="MVVM Light Application"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
-    
+
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Skins/MainSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <ControlTemplate x:Key="ButtonControlTemplate1" TargetType="{x:Type Button}">
+                <Grid>
+                    <ContentPresenter Margin="17.319,0,-21.229,0"/>
+                </Grid>
+            </ControlTemplate>
+            <ControlTemplate x:Key="CheckBoxControlTemplate1" TargetType="{x:Type CheckBox}">
+                <Path Data="M6.145419,7.8207877 C11.173352,15.083358 12.908408,14.583145 17.377682,2.2926427" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="6.145,2.293,0,3.194" Stretch="Fill" Stroke="Black" Width="12.232"/>
+            </ControlTemplate>
+            <DataTemplate x:Key="FriendViewModelTemplate1">
+                <StackPanel>
+                    <TextBlock Text="{Binding DateOfBirthFormatted, Mode=OneWay}"/>
+                    <TextBlock Text="{Binding FullName, Mode=OneWay}"/>
+                    <Image Source="{Binding ImageURI, Mode=OneWay}" />
+                </StackPanel>
+            </DataTemplate>
         </ResourceDictionary>
     </Window.Resources>
 
     <Grid x:Name="LayoutRoot">
 
-        <TextBlock FontSize="36"
+        <!--<TextBlock FontSize="36"
                    FontWeight="Bold"
                    Foreground="Purple"
                    Text="{Binding WelcomeTitle}"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
-                   TextWrapping="Wrap" />
+                   TextWrapping="Wrap" /> -->
         <Button x:Name="button" Content="Refresh" HorizontalAlignment="Left" Height="19.51" Margin="52.094,10,0,0" VerticalAlignment="Top" Width="51.524" IsCancel="True" Command="{Binding RefreshCommand, Mode=OneWay}"/>
-        <ListView x:Name="listView" Margin="24,81.667,29.333,87.333">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <CheckBox x:Name="checkBox" Content="CheckBox" HorizontalAlignment="Left" Height="27.933" VerticalAlignment="Bottom" Width="103.352" Template="{DynamicResource CheckBoxControlTemplate2}"/>
+        <ListBox x:Name="listBox" ItemTemplate="{DynamicResource FriendViewModelTemplate1}" ItemsSource="{Binding Friends}" Margin="0,34.51,0,27.933" HorizontalAlignment="Left" Width="108.352"/>
+        <StackPanel x:Name="stackPanel" Margin="113.352,34.51,25.26,27.933" DataContext="{Binding SelectedItem, ElementName=listBox}">
+            <TextBox x:Name="textBox" Height="23.409" Margin="10,0,40.966,0" TextWrapping="Wrap" Text="{Binding Model.FirstName}"/>
+            <TextBox x:Name="textBox_Copy" Height="23.409" Margin="10,0,40.966,0" TextWrapping="Wrap" Text="{Binding Model.LastName}"/>
+            <TextBox x:Name="textBox_Copy1" Height="23.409" Margin="10,0,40.966,0" TextWrapping="Wrap" Text="{Binding Model.DateOfBirth}"/>
+        </StackPanel>
 
     </Grid>
 </Window>

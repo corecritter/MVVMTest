@@ -16,7 +16,23 @@ namespace MvvmLightDemo.ViewModel
     {
         private readonly IDataService _dataService;
 
-        private ObservableCollection<FriendViewModel> Friends;
+        private ObservableCollection<FriendViewModel> _friends;
+        
+        public ObservableCollection<FriendViewModel> Friends
+        {
+            get
+            {
+                if (_friends == null)
+                {
+                    _friends = new ObservableCollection<FriendViewModel>();
+
+                }
+                return _friends;
+            }
+        }
+        
+        
+        
         /// <summary>
         /// The <see cref="WelcomeTitle" /> property's name.
         /// </summary>
@@ -83,10 +99,10 @@ namespace MvvmLightDemo.ViewModel
             var friends = await _dataService.GetFriends();
             if (friends != null)
             {
-                Friends.Clear();
+                _friends.Clear();
                 foreach (var friend in friends)
                 {
-                    Friends.Add(new FriendViewModel(friend, null));
+                    _friends.Add(new FriendViewModel(friend, null));
                 }
             }
         }

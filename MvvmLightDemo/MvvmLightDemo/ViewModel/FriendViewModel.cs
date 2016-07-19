@@ -65,5 +65,13 @@ namespace MvvmLightDemo.ViewModel
                 //}
             }
         }
+
+        public string ImageURI
+        {
+            get
+            {
+                return Model.ImageUrl;
+            }
+        }
     }
 }
